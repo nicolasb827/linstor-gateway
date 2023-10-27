@@ -38,7 +38,7 @@ func TestISCSIList(t *testing.T) {
 						SizeKiB: 47185920,
 					},
 				},
-				Username: "", Password: "",
+				Username: "", Password: "", Tid: ""
 				ServiceIPs: []common.IpCidr{ipnet("10.43.6.223/16")},
 				Status: common.ResourceStatus{
 					State:   common.ResourceStateOK,

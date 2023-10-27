@@ -29,6 +29,7 @@ type ResourceConfig struct {
 	Volumes           []common.VolumeConfig `json:"volumes"`
 	Username          string                `json:"username,omitempty"`
 	Password          string                `json:"password,omitempty"`
+	Tid               string                `json:"tid,omitempty"`
 	ServiceIPs        []common.IpCidr       `json:"service_ips"`
 	Status            common.ResourceStatus `json:"status"`
 	GrossSize         bool                  `json:"gross_size"`
@@ -97,6 +98,7 @@ func parsePromoterConfig(cfg *reactor.PromoterConfig) (*ResourceConfig, error) {
 
 				r.Username = agent.Attributes["incoming_username"]
 				r.Password = agent.Attributes["incoming_password"]
+				r.Tid = agent.Attributes["tid"]
 
 				rawAllowed := agent.Attributes["allowed_initiators"]
 				if rawAllowed != "" {
@@ -259,6 +261,10 @@ func (r *ResourceConfig) Matches(o *ResourceConfig) bool {
 		return false
 	}
 
+	if r.Tid != o.Tid {
+		return false
+	}
+
 	return true
 }
 
@@ -321,6 +327,7 @@ func (r *ResourceConfig) ToPromoter(deployment []client.ResourceWithVolumes) (*r
 		"incoming_username":  r.Username,
 		"incoming_password":  r.Password,
 		"allowed_initiators": strings.Join(allowedInitiatorStrings, " "),
+		"tid":                r.Tid,
 	}
 	if r.Implementation != "" {
 		targetAttrs["implementation"] = r.Implementation

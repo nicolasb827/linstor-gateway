@@ -47,7 +47,7 @@ as well as drbd-reactor is a prerequisite to use this tool.`,
 }
 
 func createISCSICommand() *cobra.Command {
-	var username, password, group string
+	var username, password, group, tid string
 	var serviceIps []common.IpCidr
 	var allowedInitiators []string
 	var grossSize bool
@@ -107,6 +107,7 @@ high availability primitives.`,
 				IQN:               iqn,
 				Username:          username,
 				Password:          password,
+				Tid:               tid,
 				ServiceIPs:        serviceIps,
 				Volumes:           volumes,
 				AllowedInitiators: allowedInitiatorIqns,
@@ -126,6 +127,7 @@ high availability primitives.`,
 
 	cmd.Flags().StringVarP(&username, "username", "u", "", "Set the username to use for CHAP authentication")
 	cmd.Flags().StringVarP(&password, "password", "p", "", "Set the password to use for CHAP authentication")
+	cmd.Flags().StringVarP(&tid, "target_id", "t", "", "Set the target ID to use")
 	cmd.Flags().StringVarP(&group, "deprecated-resource-group", "g", "DfltRscGrp", "Set the LINSTOR resource group")
 	_ = cmd.Flags().MarkHidden("deprecated-resource-group")
 	_ = cmd.Flags().MarkShorthandDeprecated("deprecated-resource-group", "use -r instead")

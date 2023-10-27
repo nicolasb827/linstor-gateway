@@ -18,6 +18,7 @@ func (s *server) ISCSIList() http.HandlerFunc {
 		for i := range targets {
 			targets[i].Username = ""
 			targets[i].Password = ""
+			targets[i].Tid = ""
 		}
 
 		w.WriteHeader(http.StatusOK)
